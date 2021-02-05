@@ -1,0 +1,28 @@
+Please fill in answers to the questions below:
+
+
+1. What's your name?
+Jonathan Abadi
+
+2. What hostname did you deploy to?
+http://hw03.abadij.com/
+
+
+3. Which parts of this assignment did you have trouble with, if any?
+Mainly with the primary js code.
+
+
+4. What external libraries did you use? For what?
+I use one external library, to write some helper functions like unique, render guess and render result. 
+
+
+
+And here's a list of tasks for grading comments. Just leave this here:
+ - Task 1
+ - Task 2
+ - Task 3
+ - Task 4
+ - Task 5
+ - Task 6
+ - Task 7
+ - Task 8
