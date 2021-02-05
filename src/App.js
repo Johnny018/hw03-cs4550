@@ -1,58 +1,124 @@
-import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
-import './App.css';
+import { useState } from 'react'; 
+import { uniq, renderGuess, renderRes } from './game';
+import './App.css'; 
+ 
+function App() { 
+        const [input] = useState(randomNum()); 
+        const [guesses, setGuesses] = useState([]); 
+	const [results, setResults] = useState([]);
+	const [text, setText] = useState("");
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
-    </div>
-  );
+	function updateText(ev){
+		let vv = ev.target.value;
+		setText(vv);		
+	}
+
+	function guess() {
+		if(onlyNum() === false){
+			alert("Must be four numbers from 1-9");
+		}
+		else if(uniq(text) === false){
+			alert("Only unique numbers from 1-9");
+		}
+		else if(isNewNumb() === false){
+			alert("Input already given")
+		}
+		else{
+			let newGuesses = [...guesses, text];
+			let newResult = [...results, generateRes()];
+			setGuesses(newGuesses);
+			setResults(newResult);
+		}
+	}
+
+	function isNewNumb() {
+		let numbers = new Set(guesses);
+		return numbers.has(text) === false;
+	}
+ 
+	function KeyPress(ev) {
+		if (ev.key === "Enter") {
+			guess();
+		}
+	}
+
+	function onlyNum() {
+		return /^[1-9]{4}$/.test(text);
+	}
+
+	function generateRes() {
+		let a = 0;
+		let b = 0;
+		let numbers = new Set(input);
+		for(let i = 0; i < 4; i++) {
+			if(text[i] === input[i]) {
+				a += 1;
+			}
+			else if(numbers.has(text[i])) {
+				b += 1;
+			}
+		}	
+		return(a + "A" + b + "B");
+	}
+
+	function gameWon() {
+		if(results.length === 0) {
+			return false;
+		}
+		let result = results[results.length - 1];
+		return result[0] === "4";
+	}
+
+	function randomNum() {
+		let numbers = ["1","2","3","4","5","6","7","8","9"];
+		let number = "";
+		for(let i = 0; i < 4; i++) {
+			let rand = Math.floor(Math.random() * numbers.length);
+			number += numbers[rand];
+			numbers.splice(rand, 1);
+		}
+		return number;
+	}
+
+	function renderScreen() {
+		if(gameWon()) {
+			return(
+				<h1>You Won!</h1>
+			);
+		}
+		if(guesses.length >= 8){
+			return(
+  				<h1>Game Over!</h1>
+
+ 			);
+
+		}
+		return(
+			<div>
+			<h1>Input: <input type="text"
+                                            	maxlength="4"
+                                                value={text}
+                                                onChange={updateText}
+                                                onKeyPress={KeyPress} />
+                                        <button onClick= {guess} type="button">ok</button></h1>
+                                        <div class="grid-container">
+                                        <div class="Guess">Guess</div>
+                                        <div class="Result">Result</div>
+                                        <div class="one">1</div>
+                                        <div class="two">2</div>
+                                        <div class="three">3</div>
+                                        <div class="four">4</div>
+                                        <div class="five">5</div>
+                                        <div class="six">6</div>
+                                        <div class="seven">7</div>
+                                        <div class="eight">8</div>
+                                        {renderGuess(guesses)}
+					{renderRes(results)}
+					</div>
+			</div>
+		);
+	}
+	return(<div className="App">{renderScreen()}</div>);
 }
 
 export default App;
