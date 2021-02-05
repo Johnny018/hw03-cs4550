@@ -7,7 +7,8 @@ function App() {
         const [guesses, setGuesses] = useState([]); 
 	const [results, setResults] = useState([]);
 	const [text, setText] = useState("");
-
+	
+	// based on professor code
 	function updateText(ev){
 		let vv = ev.target.value;
 		setText(vv);		
@@ -35,7 +36,8 @@ function App() {
 		let numbers = new Set(guesses);
 		return numbers.has(text) === false;
 	}
- 
+	
+ 	// based on professor code
 	function KeyPress(ev) {
 		if (ev.key === "Enter") {
 			guess();
@@ -91,7 +93,6 @@ function App() {
   				<h1>Game Over!</h1>
 
  			);
-
 		}
 		return(
 			<div>
