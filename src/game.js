@@ -1,3 +1,4 @@
+// based on professor code
 export function uniq(xs) {
         return new Set(xs).size === 4;
 }
